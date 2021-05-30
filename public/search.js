@@ -1,6 +1,40 @@
 var searchField = document.getElementById("searchField");
 var searchButton = document.getElementById("searchButton");
 
+function runSearch(event) {
+	event.preventDefault();
+
+	var term = document.getElementById('searchField').value;
+	var results = searchIndex.search(term);
+
+	var resultPages = results.map(function (match) {
+		return documents[match.ref];
+	});
+
+	resultsString = "<div class='resultwrapper'><h1>Result for " + term + "</h1>";
+	resultsString += "<button id='closeSearchResult'>close</button>";
+	resultsString += "<ul class='resultlist'>";
+	resultPages.forEach(function (r) {
+	    resultsString += "<li class='resultitem'>";
+	    resultsString +=   "<a class='resultheader' href='" + r.url + "?q=" + term + "'><h3>" + r.title + "</h3></a>";
+	    resultsString +=   "<div class='resultsnippet'>" + r.content.substring(0, 200) + " ...</div>";
+	    resultsString += "</li>"
+	});
+	resultsString += "</ul></div>";
+
+	if(!holdcontent)
+	{
+		contentwrapper = document.getElementById("searchresult").parentNode;
+		holdcontent = contentwrapper.innerHTML;
+	}
+
+	contentwrapper.innerHTML = resultsString;
+
+	document.getElementById("closeSearchResult").addEventListener("click", function(event){
+		contentwrapper.innerHTML = holdcontent;
+	});
+}
+
 if(searchField && searchButton)
 {
 	var searchIndex = false;
@@ -36,38 +70,13 @@ if(searchField && searchButton)
 	});
 
 	searchButton.addEventListener("click", function(event){
-		event.preventDefault();
+		runSearch(event);
+	}, false);
 
-		var term = document.getElementById('searchField').value;
-		var results = searchIndex.search(term);
-
-		var resultPages = results.map(function (match) {
-			return documents[match.ref];
-		});
-
-		resultsString = "<div class='resultwrapper'><h1>Result for " + term + "</h1>";
-		resultsString += "<button id='closeSearchResult'>close</button>";
-		resultsString += "<ul class='resultlist'>";
-		resultPages.forEach(function (r) {
-		    resultsString += "<li class='resultitem'>";
-		    resultsString +=   "<a class='resultheader' href='" + r.url + "?q=" + term + "'><h3>" + r.title + "</h3></a>";
-		    resultsString +=   "<div class='resultsnippet'>" + r.content.substring(0, 200) + " ...</div>";
-		    resultsString += "</li>"
-		});
-		resultsString += "</ul></div>";
-
-		if(!holdcontent)
-		{
-			contentwrapper = document.getElementById("searchresult").parentNode;
-			holdcontent = contentwrapper.innerHTML;
+	searchField.addEventListener("keypress", function(event){
+		if (event.key === 'Enter') {
+			runSearch(event);
 		}
-
-		contentwrapper.innerHTML = resultsString;
-
-		document.getElementById("closeSearchResult").addEventListener("click", function(event){
-			contentwrapper.innerHTML = holdcontent;
-		});
-
 	}, false);
 }
 
