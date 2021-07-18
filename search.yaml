@@ -1,8 +1,27 @@
 ﻿name: Search
-version: 1.0.1
+version: 1.1.0
 description: Add a search to your website with lunr.js.
 author: Trendschau
-homepage: https://typemill.net
+homepage: https://trendschau.net
 licence: MIT
 paypal: https://paypal.me/typemill
 amount: 10
+
+forms:
+  fields:
+    placeholder:
+      type: text
+      label: Placeholder for search field
+      palceholder: search...
+    resulttext:
+      type: text
+      label: Text for result
+      placeholder: Result for
+    noresulttext:
+      type: text
+      label: Text for no result message
+      placeholder: We did not find anything for that search term.
+    closetext:
+      type: text
+      label: Text for close button
+      placeholder: close

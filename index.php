@@ -73,8 +73,8 @@ class Index extends Plugin
 
     	# get and cleanup the content
     	$content = $parts[1];
-    	$content = strip_tags($content);
     	$content = str_replace(["\r\n", "\n", "\r"],' ', $content);
+    	$content = $this->strip_markdown($content);
 
     	$pageContent = [
     		'title' 	=> $title,
@@ -83,5 +83,67 @@ class Index extends Plugin
     	];
 
     	return $pageContent;
+    }
+
+    # see https://github.com/stiang/remove-markdown/blob/master/index.js
+    private function strip_markdown($content)
+    {
+        # Remove TOC
+        $content = str_replace('[TOC]', '', $content);
+
+        # Remove horizontal rules
+        $content = preg_replace('/^(-\s*?|\*\s*?|_\s*?){3,}\s*$/m', '', $content);
+
+        # Lists
+        $content = preg_replace('/^([\s\t]*)([\*\-\+]|\d+\.)\s+/', '', $content);
+
+  		# fenced codeblock
+  		$content = preg_replace('/~{3}.*\n/', '', $content);
+
+  		# strikethrough
+  		$content = preg_replace('/~~/', '', $content);
+
+        # attributes
+        $content = preg_replace('/\{.*?\}/', '', $content);
+
+  		# fenced codeblocks
+  		$content = preg_replace('/`{3}.*\n/', '', $content);
+
+  		# html tags
+  		$content = preg_replace('/<[^>]*>/', '', $content);
+
+  		# setext headers
+  		$content = preg_replace('/^[=\-]{2,}\s*$/', '', $content);
+
+  		# atx headers
+        $content = preg_replace('/#{1,6}/', '', $content);
+ 		$content = preg_replace('/^(\n)?\s{0,}#{1,6}\s+| {0,}(\n)?\s{0,}#{0,} {0,}(\n)?\s{0,}$/', '$1$2$3', $content);
+
+  		# footnotes
+  		$content = preg_replace('/\[\^.+?\](\: .*?$)?/', '', $content);
+  		$content = preg_replace('/\s{0,2}\[.*?\]: .*?$/', '', $content);
+
+  		# images
+  		$content = preg_replace('/\!\[(.*?)\][\[\(].*?[\]\)]/', '', $content);
+
+  		# inline links
+  		$content = preg_replace('/\[(.*?)\][\[\(].*?[\]\)]/', '$1', $content);
+
+  		# referenced style links 
+        #  $content = preg_replace('/^\s{1,2}\[(.*?)\]: (\S+)( ".*?")?\s*$/', '$1', $content);
+
+  		# blockquotes
+  		$content = preg_replace('/\s{0,3}>\s?/', '', $content);
+
+  		# emphasis
+  		$content = preg_replace('/([\*_]{1,3})(\S.*?\S{0,1})\1/', '$2', $content);
+
+  		# codeblocks
+  		$content = preg_replace('/(`{3,})(.*?)\1/', '$2', $content);
+
+  		# inlinecode
+  		$content = preg_replace('/`(.+?)`/', '$1', $content);
+
+  		return $content;
     }
 }

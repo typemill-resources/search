@@ -32,18 +32,22 @@
 #searchresult{
 }
 .resultwrapper{
+	position: relative;
+}
+.resultwrapper h1{
+	margin-right:  100px;
 }
 button#closeSearchResult{
 	position: absolute;
 	right: 0px;
 	top: 0px;
-	margin: 10px;
 	border: none;
 	border-radius: 2px;
 	font-size: 1rem;
 	color: #fff;
 	background: #000;
 	padding: 15px;
+	z-index: 999;
 }
 button#closeSearchResult:hover,#closeSearchResult:focus{
 	cursor: pointer;
@@ -61,4 +65,7 @@ button#closeSearchResult:hover,#closeSearchResult:focus{
 }
 .resultsnippet{
 
+}
+.lunr-hl{
+	background-color: yellow;
 }
