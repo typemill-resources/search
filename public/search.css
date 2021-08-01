@@ -28,7 +28,15 @@
 .searchContainer button:hover,.searchContainer button:focus, .searchContainer button:active{
 	cursor: pointer;
 }
-
+.icon.icon-search{
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    stroke-width: 0;
+    stroke: currentColor;
+    fill: currentColor;
+    vertical-align: middle;
+}
 #searchresult{
 }
 .resultwrapper{
