@@ -91,7 +91,7 @@ class Index extends Plugin
         # Remove TOC
         $content = str_replace('[TOC]', '', $content);
 
-		# Remove Shortcodes
+	# Remove Shortcodes
         $content = preg_replace('/\[:.*:\]/m', '', $content);
 		
         # Remove horizontal rules
