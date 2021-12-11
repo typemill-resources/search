@@ -1,5 +1,5 @@
-﻿name: Search
-version: 1.1.1
+name: Search
+version: 1.1.2
 description: Add a search to your website with lunr.js.
 author: Trendschau
 homepage: https://trendschau.net
