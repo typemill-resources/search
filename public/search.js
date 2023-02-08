@@ -24,7 +24,7 @@ function runSearch(event) {
     return;
   }
 	
-	var results = searchIndex.search(term);
+	var results = searchIndex.search(`${term}^100 ${term}*^10`);
 
 	var resultPages = results.map(function (match)
 	{
